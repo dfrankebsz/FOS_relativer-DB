@@ -158,6 +158,9 @@ course={
   {'id':'coat','label':'Laborkittel','emoji':'🥼','kind':'Outfit','cost':100,'description':'Für die Wissenschaft der Kosten.'}
  ]
 }
+from enhance_content import apply_course_enhancements
+apply_course_enhancements(course)
+
 # Content integrity checks
 for chap in C:
  assert len(chap['questions'])==8,chap['id']
@@ -167,6 +170,9 @@ for chap in C:
 for x in C+[{'questions':bonus},{'questions':final}]:
  for item in x['questions']:
   if item['type']=='table':assert len(item['answer'])==len(item['fields'])
+  if item['type']=='matrix':
+   assert len(item['answer']) >= 2, item['id']
+   assert all(col['id'] in [c['id'] for c in item['grid']['columns']] for key in item['answer'] for col in item['grid']['columns'] if col['id']==key.split(':',1)[1])
   if item['type']=='single':assert item['answer'] in [o[0] for o in item['options']]
   if item['type']=='multi':assert all(a in [o[0] for o in item['options']] for a in item['answer'])
   if item['type']=='order':assert sorted(item['answer'])==sorted(a for a,b in item['items'])

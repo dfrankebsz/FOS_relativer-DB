@@ -4,12 +4,20 @@ Interaktiver deutschsprachiger Lernkurs mit Team-Einstiegsspiel, Erklärungen, �
 
 ## 1. Aufbau
 
-- **Kapitel 0: Einstiegsspiel zu zweit.** Die Leipziger LichtForm GmbH aus dem einführenden Fall: vier Leuchtenmodelle, Originalpreise, Originalkosten, Originalabsatzgrenzen, Originalmontagezeiten und **9.250 Montageminuten**. Die 20 Zeitkarten teilen exakt die verfügbare Zeit auf (je 462,5 Minuten). Für die Produktion können sie anteilig verbraucht werden; die Berechnungen verwenden minutengenaue Werte.
+- **Kapitel 0: Einstiegsspiel zu zweit.** Die Leipziger LichtForm GmbH aus dem einführenden Fall: vier Leuchtenmodelle, Originalpreise, Originalkosten, Originalabsatzgrenzen, Originalmontagezeiten und **9.250 Montageminuten**. Die 20 farbigen Zeitkarten-Felder visualisieren die Belegung der gesamten Kapazität proportional; die Berechnungen verwenden die exakten Minuten und ganzen Stückzahlen. Die Karten sind eine visuelle Anzeige, keine physisch abzugebenden 5-Minuten-Einheiten.
 - **Sechs Lernkapitel** zum Stückdeckungsbeitrag, Engpass, relativem DB, Produktionsprogramm, Betriebsergebnis und betriebswirtschaftlicher Beurteilung.
 - **48 reguläre Übungsaufgaben** mit je zwei AFB-I-, vier AFB-II- und zwei AFB-III-Aufgaben pro Kapitel; **8 Bonusaufgaben** und **10 Abschlussaufgaben**.
-- Eingaben: Zahlen, komplexe Tabellen, Einfach- und Mehrfachauswahl, Richtig/Falsch, Drag & Drop plus barriereärmere Pfeiltasten, Zuordnen, Freitext mit Selbstkontrolle.
+- **17 mehrzeilige Rechentabellen** mit gegebenen und auszufüllenden Feldern, davon **10 umfangreiche Tabellen mit einzeln aufklappbaren Zeilen- und Spaltenhilfen**, dazu einfache Zahleneingaben, Einfach- und Mehrfachauswahl, Richtig/Falsch, Drag & Drop plus barriereärmere Pfeiltasten, Zuordnen, Freitext mit Selbstkontrolle.
 - XP für abgeschlossene Übungen, Freischaltung von Avataren/Haustieren/Outfits, Galerie, Fortschrittsanzeige, Kompetenz-Checkliste und Glossar.
 - Druckfunktion für ein zusammenhängendes Dokument der **bisher bearbeiteten Aufgaben samt eigenen Antworten**. Im Browser **„Als PDF speichern“** auswählen.
+
+### Änderungen in Version 2
+
+- Das Einstiegsspiel ist wieder als farbige **Zeitkarten-Challenge für genau zwei Personen** gestaltet. Es gibt Plus-/Minus-Schritte, Eingabefelder, farbig zugewiesene Maschinenzeit, eine nach Abgabe gezeigte Musterlösung und eine **nur auf dem jeweiligen Gerät gespeicherte** Teamwertung.
+- **Jede der 66 Aufgaben** besitzt einen freiwillig aufklappbaren Hinweis. Hinweise sollen den Rechenansatz erklären, ohne die Lösung ungefragt vorwegzunehmen.
+- **17 Aufgaben** wurden zu mehrzeiligen, teils vorausgefüllten **Rechentabellen** ausgebaut. **10 besonders umfangreiche Tabellen** verfügen zusätzlich über eigene Hilfe-Schaltflächen für **einzelne Zeilen und Spalten**.
+- Die automatische Korrektur prüft bei Tabellen **jedes bearbeitbare Zahlenfeld**; eine unvollständige Tabelle wird nicht als richtig gewertet. Nach einem Fehlversuch erhalten abweichende Felder eine dezente Markierung.
+- Beim Ausdruck als PDF werden die **vom Schüler eingegebenen Tabellenwerte wieder als Tabellen** dargestellt.
 
 ## 2. Installation über GitHub und Netlify
 
@@ -94,7 +102,7 @@ Die Tests prüfen Rechenlogik und sämtliche automatischen Musterantworten sowie
 - `site/assets/`: Lernübersicht und Favicon.
 - `netlify/functions/api.mjs`: alle serverseitigen Funktionen für Registrierung, Authentifizierung, Speicherung und Lehrerbereich.
 - `netlify.toml`: Netlify-Projektkonfiguration.
-- `make_content.py`: lesbarer Quellgenerator für Fragen, Beispiele, Lösungen und Glossar. Nach Änderungen mit `python make_content.py` neu erzeugen.
+- `make_content.py` + `enhance_content.py`: lesbare Inhaltsgeneratoren für Fragen, Tabellen, Hinweise, Lösungen und Glossar. Nach inhaltlichen Änderungen mit `python make_content.py` neu erzeugen; die Erweiterungen werden dabei automatisch mitgeladen.
 - `tests/`: automatisierte Prüffälle.
 
-Stand: 10. November 2026 · generiertes Unterrichtsprojekt, vor Veröffentlichung redaktionell prüfen.
+Stand: 10. November 2026 · Kursversion 2 · generiertes Unterrichtsprojekt. Die automatisierten Tests und ein lokaler Browser-Test mit simuliertem Speicher wurden durchgeführt. Der Live-Deploy und die reale Netlify-Blobs-Anbindung müssen nach der Veröffentlichung mit Testkonten geprüft werden.
