@@ -95,17 +95,13 @@ function solveProgram(capacity){
  return {products:vals,total:vals.reduce((s,p)=>s+p.qty*(p.price-p.kv),0),used:capacity-rest,rest};
 }
 function gamePage(){
- const game=state.progress.game||{counts:[0,0,0,0],submitted:false};
- const icons=['💡','🏙️','🎨','🚀'];
- const controls=D.products.map((p,i)=>`<article class="product-card playcard tone-${i}"><div class="product-icon">${icons[i]}</div><div class="product-info"><strong>${p.name}</strong><small>Netto-Preis: <b>${fmt(p.price)} €</b> · var. Kosten: <b>${fmt(p.kv)} €</b></small><div class="play-chips"><span>Stück-DB: <b>${fmt(p.price-p.kv)} €</b></span><span>⏱ ${p.time} min/St.</span><span>Absatzgrenze: <b>${fmt(p.max)} St.</b></span></div></div><div class="qtybox"><div class="quantity-label">Ihre Menge</div><div class="qty-buttons">${btn('−10',`data-game-step="${i}" data-by="-10" aria-label="${p.name}: zehn weniger"`,'outline')}${btn('−1',`data-game-step="${i}" data-by="-1" aria-label="${p.name}: eins weniger"`,'outline')}<input aria-label="Produktionsmenge ${p.name}" type="number" min="0" max="${p.max}" step="1" data-game-qty="${i}" value="${game.counts[i]||0}">${btn('+1',`data-game-step="${i}" data-by="1" aria-label="${p.name}: eins mehr"`,'outline')}${btn('+10',`data-game-step="${i}" data-by="10" aria-label="${p.name}: zehn mehr"`,'outline')}</div></div></article>`).join('');
- const scores=(Array.isArray(state.teamScores)?state.teamScores:[]).slice().sort((a,b)=>b.db-a.db||b.time-a.time).slice(0,10);
- const yours=D.products.reduce((n,p,i)=>n+(game.counts[i]||0)*(p.price-p.kv),0),used=D.products.reduce((n,p,i)=>n+(game.counts[i]||0)*p.time,0);
- return hero('Kapitel 0 · Zeitkarten-Challenge','🎮 Eine Maschine. Vier Leuchten. Ihre Entscheidung!','Übernehmen Sie zu zweit die Produktionsplanung der Leipziger LichtForm GmbH. Entscheiden Sie zunächst selbst, wie Sie die knappe Montagezeit nutzen. Die optimalen Mengen und der relative Deckungsbeitrag werden erst nach der Abgabe gezeigt.',btn('Zum Lernkapitel','data-page="basis"','accent')+btn('Bisherige Antworten drucken','data-print','ghost'))+
- `<section class="game-mission"><div class="game-mission-heading"><span class="big-emoji">🤝</span><div><h2>Arbeiten Sie zu zweit</h2><p><b>Person A – Produktionsleitung:</b> Wählen Sie die Stückzahlen. <b>Person B – Controlling:</b> Prüfen Sie Zeitbudget und Gesamt-DB. <b>Danach tauschen Sie die Rollen</b> und verbessern gemeinsam die Entscheidung, bevor Sie abgeben.</p></div></div><div class="game-mission-stats"><span>🃏 <b>20 Zeitkarten-Felder</b> für das Zeitbudget</span><span>⏱ <b>9.250 Minuten</b> verfügbar</span><span>🎯 <b>So viel DB wie möglich</b></span></div></section>
- <section class="card"><h2>📋 Ausgangsdaten der Leuchtenfabrik</h2><p>Sie entscheiden über die Mengen der Modelle Basic, City, Studio und Pro. Die Nachfrage ist jeweils nach oben begrenzt; es können nur ganze Leuchten gefertigt werden. Die Maschine kann nicht über ihre Zeitkapazität hinaus belegt werden.</p><div class="data-table-wrap"><table class="data-table"><thead><tr><th>Modell</th><th>Netto-Preis</th><th>Var. Kosten</th><th>Max. Absatz</th><th>min/St.</th></tr></thead><tbody>${D.products.map(p=>`<tr><td>${p.name}</td><td>${fmt(p.price)} €</td><td>${fmt(p.kv)} €</td><td>${fmt(p.max)}</td><td>${fmt(p.time)}</td></tr>`).join('')}</tbody></table></div></section>
- <section class="card"><h2>🏭 Ihr Produktionsspiel</h2><p>Verteilen Sie die verfügbare Zeit mit den Plus-/Minus-Schaltflächen oder geben Sie Mengen direkt ein. Die farbigen Zeitkarten zeigen Ihre Belegung sofort an.</p><div class="game-controls">${controls}</div><div id="game-stats">${gameStats()}</div><div class="foot-actions">${btn('🏁 Gemeinsamen Plan abgeben','data-game-submit','primary')}${btn('↺ Neu planen','data-game-zero','ghost')}</div>${game.submitted?`<div class="game-result"><h3>🏆 Ihre Team-Auswertung</h3><p><b>Ihr Ergebnis: ${fmt(yours)} € Gesamtdeckungsbeitrag</b> · Genutzte Montagezeit: ${fmt(used)} min</p><p>${yours===54450?'Sie haben das optimale Ergebnis erreicht.':`Bis zum optimalen Ergebnis fehlen ${fmt(54450-yours)} €. Vergleichen Sie jetzt Ihre Planung mit dem Rechenweg.`}</p><label class="game-team-label">Name Ihres Zweierteams (nur auf diesem Gerät sichtbar)<input class="field" id="team-name" maxlength="32" placeholder="z. B. Team Blau" value="${htmlEscape(state.teamName)}"></label><div class="foot-actions">${btn('In Gruppenwertung übernehmen','data-game-score','accent')}</div></div>${rankSolution()}`:''}</section>
- <section class="card"><h2>🏅 Gruppenwertung auf diesem Gerät</h2><p class="mini">Die Ergebnisse bleiben nur im aktuell verwendeten Browser. Verschiedene Smartphones synchronisieren diese Wertung nicht automatisch.</p><div class="data-table-wrap"><table class="data-table"><thead><tr><th>Platz</th><th>Team</th><th>Gesamt-DB</th><th>Zeit</th></tr></thead><tbody>${scores.length?scores.map((v,i)=>`<tr><td>${i+1}</td><td>${htmlEscape(v.name)}</td><td>${fmt(v.db)} €</td><td>${fmt(v.time)} min</td></tr>`).join(''):'<tr><td colspan="4">Noch keine eingetragenen Teams</td></tr>'}</tbody></table></div></section>
- <section class="card"><h2>💬 Reflexion im Zweierteam</h2><p>Erklären Sie gemeinsam: Weshalb reicht der höchste Stückdeckungsbeitrag bei knappem Maschineneinsatz nicht als Entscheidungsregel aus?</p>${renderQuestion({id:'game-reflect',afb:3,type:'text',prompt:'Formulieren Sie Ihre gemeinsame Erklärung in eigenen Worten.',answer:'self',solution:'Entscheidend ist der <b>Deckungsbeitrag je knapper Montageminute</b>. Ein Modell kann viel DB pro Stück liefern, aber zugleich die Maschine sehr lange beanspruchen. Deshalb wird nach dem <b>relativen Deckungsbeitrag</b> geplant.',hint:'Denken Sie an die Kombination aus Deckungsbeitrag je Stück und benötigten Minuten je Stück.'})}</section>`;
+ return hero('Kapitel 0 · Einstiegsspiel','🎮 Die Zeitkarten-Challenge',
+   'Arbeiten Sie zu zweit. Verteilen Sie gemeinsam 20 Zeitkarten auf drei Leuchtenmodelle. Nach der Abgabe sehen Sie nur Ihr Ergebnis und den bestmöglichen Gesamtdeckungsbeitrag – die Produktionsstrategie wird später im Plenum besprochen.',
+   btn('Zum ersten Lernkapitel','data-page="basis"','accent')+btn('Bisherige Antworten drucken','data-print','ghost'))+
+ `<section class="game-mission"><div class="game-mission-heading"><span class="big-emoji">🤝</span><div><h2>Ihr Zweierteam</h2><p><b>Person A</b> plant die Stückzahlen. <b>Person B</b> prüft die Zeitkarten und den Gesamtdeckungsbeitrag. Wechseln Sie die Rollen und entscheiden Sie gemeinsam, bevor Sie abgeben.</p></div></div></section>
+  <iframe id="zeitkarten-frame" title="Zeitkarten-Challenge für Zweierteams" src="zeitkarten-spiel.html" loading="eager" style="width:100%;height:1320px;display:block;border:0;border-radius:18px;background:#f4f7fc;" referrerpolicy="same-origin"></iframe>
+  <section class="card"><h2>💬 Reflexion im Zweierteam</h2><p>Erklären Sie gemeinsam: Weshalb reicht der höchste Stückdeckungsbeitrag bei knappem Maschineneinsatz nicht als Entscheidungsregel aus?</p>${renderQuestion({id:'game-reflect',afb:3,type:'text',prompt:'Formulieren Sie Ihre gemeinsame Erklärung in eigenen Worten.',answer:'self',solution:'Entscheidend ist der <b>Deckungsbeitrag je knapper Montageminute</b>. Ein Modell kann viel DB pro Stück liefern, aber zugleich die Maschine sehr lange beanspruchen. Deshalb wird nach dem <b>relativen Deckungsbeitrag</b> geplant.',hint:'Denken Sie an die Kombination aus Deckungsbeitrag je Stück und benötigten Minuten je Stück.'})}</section>
+ <div class="foot-actions">${btn('Weiter: Der Stückdeckungsbeitrag','data-page="basis"','primary')}</div>`;
 }
 function answerFor(q){return state.progress.answers[q.id]||{value:q.type==='order'?q.items.map(x=>x[0]):q.type==='table'?q.fields.map(()=>''):q.type==='matrix'?{}:q.type==='match'?q.pairs.map(()=>''):q.type==='multi'?[]:'',attempts:0}};
 function matrixCellId(r,c){return r.id+':'+c.id}
@@ -180,7 +176,7 @@ function printAnswer(q,v){
 }
 function exportPDF(){
  const parts=[];const ans=state.progress.answers;
- const game=state.progress.game;if(game?.submitted){parts.push(`<section><h2>Einstiegsspiel – Produktionsplanung</h2><p>Produktionsmengen: ${D.products.map((x,i)=>`${x.name} ${game.counts[i]||0} Stück`).join(', ')}</p><p>Abgegebener Deckungsbeitrag: ${fmt(D.products.reduce((n,p,i)=>n+(game.counts[i]||0)*(p.price-p.kv),0))} €</p></section>`);}
+ const game=state.progress.game;if(game?.submitted){const original=game.mode==='zeitkarten-original';const names=original?['Premium','City','Basic']:D.products.map(p=>p.name);const score=original?Number(game.score)||0:D.products.reduce((n,p,i)=>n+(game.counts[i]||0)*(p.price-p.kv),0);parts.push(`<section><h2>Einstiegsspiel – Produktionsplanung</h2><p>Produktionsmengen: ${names.map((name,i)=>`${name} ${game.counts[i]||0} Stück`).join(', ')}</p><p>Abgegebener Deckungsbeitrag: ${fmt(score)} €</p></section>`);}
  if(hasContent(ans['game-reflect']))parts.push(`<section><h2>Partnerreflexion</h2><p>Warum reicht der Stückdeckungsbeitrag als Entscheidungskriterium bei einem Engpass nicht aus?</p><div class="printanswer">${htmlEscape(ans['game-reflect'].value)}</div></section>`);
  for(const ch of D.chapters){const thisQs=ch.questions.filter(q=>hasContent(ans[q.id]));if(thisQs.length){parts.push(`<h2>${htmlEscape(ch.title)}</h2>`);for(const q of thisQs)parts.push(`<section><b>${htmlEscape(q.id)} – Aufgabe:</b> ${q.prompt}<p><b>Ihre Antwort:</b></p>${printAnswer(q,ans[q.id].value)}<p><small>Status: ${ans[q.id].correct||ans[q.id].selfChecked?'Erledigt':'In Bearbeitung'}</small></p></section>`);}}
  for(const [name,items] of [['Bonus',D.bonus],['Abschlusstest',D.final]]){const thisQs=items.filter(q=>hasContent(ans[q.id]));if(thisQs.length){parts.push(`<h2>${name}</h2>`);for(const q of thisQs)parts.push(`<section><b>${htmlEscape(q.id)} – Aufgabe:</b> ${q.prompt}<p><b>Ihre Antwort:</b></p>${printAnswer(q,ans[q.id].value)}</section>`);}}
@@ -246,6 +242,30 @@ async function registerOrLogin(e){e.preventDefault();const form=e.target;const v
 async function changePassword(e){e.preventDefault();const v=Object.fromEntries(new FormData(e.target).entries());try{const d=await api('change-password',v);state.token=d.token;state.user=d.user;localStorage.setItem(keys.token,d.token);localStorage.setItem(keys.user,JSON.stringify(d.user));notice('Passwort geändert.');navigate('account');}catch(err){notice(err.message)}}
 const logout=()=>{clearTimeout(debounce);state.token='';state.user=null;state.progress=read(keys.guest,blank());localStorage.removeItem(keys.token);localStorage.removeItem(keys.user);navigate('account');notice('Sie sind abgemeldet.');};
 function init(){render();if(state.token){api('me',{}).then(r=>{state.user=r.user;state.progress=r.progress;storeLocally();render()}).catch(()=>{logout();notice('Sitzung abgelaufen. Bitte erneut anmelden.')})}}
+
+
+window.addEventListener('message', e=>{
+ if(e.origin!==window.location.origin)return;
+ const frame=document.getElementById('zeitkarten-frame');
+ if(!frame||e.source!==frame.contentWindow||!e.data||typeof e.data!=='object')return;
+ const d=e.data;
+ if(d.type==='fos-zeitkarten-height'){
+   if(Number.isFinite(d.height)&&d.height>500&&d.height<6000)frame.style.height=d.height+'px';
+ }else if(d.type==='fos-zeitkarten-submit'){
+   if(d.mode!=='zeitkarten-original'||!Array.isArray(d.counts)||d.counts.length!==3)return;
+   const counts=d.counts.map(Number);
+   const limits=[3,5,7],minutes=[20,10,5],db=[56,38,16];
+   if(counts.some((n,i)=>!Number.isInteger(n)||n<0||n>limits[i]))return;
+   const used=counts.reduce((s,n,i)=>s+n*minutes[i],0),score=counts.reduce((s,n,i)=>s+n*db[i],0);
+   if(used>100||used!==d.used||score!==d.score)return;
+   state.progress.game={mode:'zeitkarten-original',counts,score,used,submitted:true};
+   if(!state.progress.completed.includes('game')){
+     state.progress.completed.push('game');state.progress.xp+=120;
+     notice('Einstiegsspiel abgeschlossen: +120 XP!');
+   }
+   save();updateBar();
+ }
+});
 
 // Event delegation permits re-render without leaving listeners behind.
 document.addEventListener('click',async e=>{

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142b49">
+  <meta name="description" content="Zeitkarten-Challenge: Ein interaktives Unterrichtsspiel zum relativen Deckungsbeitrag für die FOS.">
+  <title>Zeitkarten-Challenge · Relativer Deckungsbeitrag</title>
+  <link rel="stylesheet" href="zeitkarten-game.css">
+</head>
+<body>
+<header class="top"><div class="wrap top-inner"><div class="brand">💡 LICHTWERKSTATT · FOS VBWL/RW</div><div class="top-note">Ein Spiel zum relativen Deckungsbeitrag</div></div></header>
+<main class="wrap">
+  <section class="hero" aria-labelledby="mainTitle">
+    <div><span class="eyebrow">Unterrichtsspiel · 10–12 Minuten</span><h1 id="mainTitle">Die Zeitkarten-<br>Challenge</h1><p class="lead">Die Montageanlage hat nur noch <strong>100 Minuten</strong> Zeit. Entscheidet als Produktionsteam, welche Leuchten ihr herstellt – und erzielt den <strong>höchstmöglichen Gesamtdeckungsbeitrag</strong>!</p></div>
+    <div class="hero-art" aria-hidden="true"><span>⏱️</span></div>
+  </section>
+  <section class="rule" aria-label="Spielregeln">
+    <div><b>🟦 20 Zeitkarten</b><br>Eine Karte entspricht <strong>5 Minuten</strong>.</div>
+    <div><b>📦 Drei Produkte</b><br>Jedes Produkt benötigt unterschiedlich viele Karten.</div>
+    <div><b>🎯 Euer Ziel</b><br>Erwirtschaftet möglichst viel Gesamt-DB – die Nachfrage ist begrenzt.</div>
+  </section>
+  <div class="section-head"><h2>1. Produktionsprogramm planen</h2><p>Plus und Minus verändern die Stückzahl</p></div>
+  <div class="layout">
+    <section class="products" id="products" aria-label="Produktauswahl"></section>
+    <aside class="panel" aria-label="Zeitkarten und Deckungsbeitrag">
+      <h2>2. Eure 20 Zeitkarten</h2>
+      <p class="subtext">Farbige Karten sind bereits durch eure Auswahl belegt.</p>
+      <div class="statbar">
+        <div class="stat"><span>Belegte Zeit</span><b id="usedTime">0 / 100</b><span>Minuten</span></div>
+        <div class="stat score"><span>Euer Gesamt-DB</span><b id="totalDb">0 €</b></div>
+        <div class="stat"><span>Freie Zeit</span><b id="freeTime">100 min</b></div>
+        <div class="stat"><span>Produzierte Leuchten</span><b id="units">0 Stück</b></div>
+      </div>
+      <div class="grid-cards" id="timecards" aria-label="20 Zeitkarten zu je 5 Minuten"></div>
+      <div class="legend"><span><i class="dot premium"></i>Premium</span><span><i class="dot city"></i>City</span><span><i class="dot basic"></i>Basic</span><span><i class="dot"></i>frei</span></div>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Anteil belegter Fertigungszeit" id="progress"><div id="progressFill"></div></div>
+      <p class="progress-label" id="progressLabel">0 von 20 Karten belegt.</p>
+      <label for="groupName">Gruppenname (optional)</label>
+      <input class="field" type="text" maxlength="35" id="groupName" placeholder="z. B. Team 3" autocomplete="off">
+      <div class="actions"><button class="btn btn-primary" id="submitBtn" type="button">Entscheidung abgeben</button><button class="btn btn-quiet" id="resetBtn" type="button">Neu planen</button></div>
+      <p class="hint">Tipp: Die Kapazität muss nicht zwingend vollständig genutzt werden. Die gesamte Nachfrage pro Produkt ist begrenzt.</p>
+      <p id="message" class="notice hidden" role="status"></p>
+    </aside>
+  </div>
+
+  <section id="result" class="result hidden" aria-live="polite" aria-label="Auswertung">
+    <span class="eyebrow">Strategie-Auswertung</span>
+    <h2 id="resultTitle">Eure Entscheidung</h2>
+    <div class="big" id="resultDb">0 €</div>
+    <p id="resultText"></p>
+    <div class="answer-grid" id="summary"></div>
+  </section>
+
+  <section class="scoreboard" aria-labelledby="scoreTitle"><div class="panel">
+    <div class="board-title"><h2 id="scoreTitle">🏅 Gruppenwertung</h2><button class="btn btn-quiet" id="clearScores" type="button">Wertung löschen</button></div>
+    <p class="subtext">Ergebnisse können nach der Abgabe auf <strong>diesem Gerät</strong> gespeichert werden. Verschiedene Geräte synchronisieren sich nicht automatisch.</p>
+    <div class="tablewrap"><table><thead><tr><th>Platz</th><th>Gruppe</th><th class="n">Gesamt-DB</th><th class="n">Genutzte Minuten</th></tr></thead><tbody id="scoreBody"><tr><td colspan="4">Noch keine Ergebnisse gespeichert.</td></tr></tbody></table></div>
+    <div class="actions" style="margin-top:13px"><button type="button" class="btn btn-primary" id="saveScore" disabled>Ergebnis zur Wertung hinzufügen</button></div>
+  </div></section>
+  <details><summary>📋 Kurzablauf für die Lehrkraft (10–12 Minuten)</summary><ol><li><strong>2 Minuten:</strong> Ausgangssituation vorstellen und Teams bilden. Den Begriff „relativer Deckungsbeitrag“ noch nicht verraten.</li><li><strong>4 Minuten:</strong> Teams planen mit den Zeitkarten und geben ihre Entscheidung ab.</li><li><strong>3 Minuten:</strong> Ergebnisse vergleichen: Warum war die Wahl nach dem höchsten Stückdeckungsbeitrag nicht immer sinnvoll?</li><li><strong>2–3 Minuten:</strong> Im Plenum die unterschiedlichen Produktionsprogramme vergleichen und daraus den relativen Deckungsbeitrag ableiten.</li></ol></details>
+  <p class="foot">Offline nutzbar · Ohne Anmeldung · Alle Daten sind fiktive Unterrichtswerte · Alle Berechnungen erfolgen lokal im Browser.</p>
+</main>
+<script src="zeitkarten-game.js" defer></script>
+</body>
+</html>

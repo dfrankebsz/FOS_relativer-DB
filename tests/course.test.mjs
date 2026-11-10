@@ -41,11 +41,8 @@ test('deutsche Zahlenschreibweise',()=>{
 });
 test('HTML-Grundstruktur und Antworten',()=>{
  assert.match(app.innerHTML,/Zeitkarten-Challenge/);
- assert.match(app.innerHTML,/9\.250 min/);
- assert.match(app.innerHTML,/Basic/);
- assert.match(app.innerHTML,/City/);
- assert.match(app.innerHTML,/Studio/);
- assert.match(app.innerHTML,/Pro/);
+ assert.match(app.innerHTML,/20 Zeitkarten/);
+ assert.match(app.innerHTML,/zeitkarten-spiel\.html/);
  assert.match(t.chapterPage(ctx.window.COURSE.chapters[0]),/AFB I/);
  assert.match(t.renderQuestion(ctx.window.COURSE.chapters[0].questions[0]),/data-matrix-id="b01"/);
 });
@@ -72,20 +69,16 @@ test('alle 66 Aufgaben haben sinnvolle Hinweise und alle mehrzeiligen Tabellen e
    if(q.grid.rows.length>=3&&Object.keys(q.answer).length>=6)assert.match(form,/Schrittweise Tabellenhilfe/,`${q.id} keine Zeilen-/Spaltenhilfen`);
  }
 });
-test('Leuchtenzeitkarten sind vor Abgabe ohne Lösungsvorschau',()=>{
+test('Original-Zeitkarten-Spiel ist eingebettet und ohne verratenes Produktionsprogramm',()=>{
  const game=t.gamePage();
  assert.match(game,/Arbeiten Sie zu zweit/);
- assert.match(game,/20 Zeitkarten-Felder/);
- assert.match(game,/9\.250/);
- assert.doesNotMatch(game,/Optimale Fertigungsreihenfolge und Rechenweg/);
-});
-test('Neue Tabelle rechnet Optimierungsvarianten mit vollständiger Kapazität',()=>{
- const q=ctx.window.COURSE.chapters.flatMap(c=>c.questions).find(q=>q.id==='p08');
- assert.match(q.prompt,/2\.520 min/);
- assert.equal(q.answer['p:menge'],44);
- assert.equal(q.answer['q:menge'],120);
- assert.equal(q.answer['r:menge'],90);
- assert.equal(q.answer['p:used']+q.answer['q:used']+q.answer['r:used'],2520);
- const x=ctx.window.COURSE.bonus.find(q=>q.id==='x05');
- assert.equal(x.answer['a:used']+x.answer['b:used']+x.answer['c:used'],594);
+ assert.match(game,/zeitkarten-spiel\.html/);
+ assert.doesNotMatch(game,/rankSolution\(/);
+ const child=readFileSync(new URL('zeitkarten-spiel.html',base),'utf8');
+ const childJs=readFileSync(new URL('zeitkarten-game.js',base),'utf8');
+ assert.match(child,/20 Zeitkarten/);
+ assert.doesNotMatch(child,/bestBody|relativeBody|Ein optimales Produktionsprogramm/);
+ assert.match(childJs,/Bestmöglicher Gesamtdeckungsbeitrag/);
+ assert.doesNotMatch(childJs,/bestBody|relativeBody/);
+ assert.match(childJs,/fos-zeitkarten-submit/);
 });
