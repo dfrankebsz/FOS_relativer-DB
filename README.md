@@ -11,6 +11,20 @@ Interaktiver deutschsprachiger Lernkurs mit Team-Einstiegsspiel, Erklärungen, �
 - XP für abgeschlossene Übungen, Freischaltung von Avataren/Haustieren/Outfits, Galerie, Fortschrittsanzeige, Kompetenz-Checkliste und Glossar.
 - Druckfunktion für ein zusammenhängendes Dokument der **bisher bearbeiteten Aufgaben samt eigenen Antworten**. Im Browser **„Als PDF speichern“** auswählen.
 
+### Änderungen in Version 4 – Themenabgleich
+
+**Abgeglichen wurden ausschließlich** die zuletzt hochgeladenen Dateien `Relativer DB_2026_Skript.pdf` und `Relativer_DB_Übung_Lös(6).docx`. Die Übungen enthalten nur fünf Aufgabenblöcke zum **relativen Deckungsbeitrag** (keinen Zusatzauftrag).
+
+- Die 66 Aufgaben wurden auf inhaltliche Zugehörigkeit geprüft. Die Kernkompetenzen bleiben: Stück-DB; Zeitbedarf und Engpass; relativer DB und Rangfolge; Produktionsmengen und Restzeiten; Gesamt-DB und Betriebsergebnis; wirtschaftliche und absatzpolitische Beurteilung.
+- **b04**: Beispiel zur Einordnung variabler Stückkosten neutralisiert, ohne Bezug zu einer zusätzlich angenommenen Bestellung.
+- **g07**: Statt einer Produktstreichung wird nun erklärt, warum das Modell Studio in der optimalen Restkapazität gefertigt wird.
+- **d08**: Statt einer neu eingehenden Sonderbestellung wird die Sortimentsvielfalt unter Engpassbedingungen beurteilt (vgl. absatzpolitische Beurteilung in der Übung).
+- **x06 (Bonus)**: Statt einer bevorzugten Einzelkundenlieferung wird eine fehlerhafte Priorisierung nach Nettoverkaufspreisen rechnerisch beurteilt (vgl. Vergleich der Rangfolgen im Skript).
+- Den nicht ausdrücklich behandelten Begriff **„Opportunitätskosten“** aus dem Glossar entfernt.
+- **Unverändert**: Einstiegsspiel samt Ergebnis-Auswertung, sämtliche Rechentabellen und Hilfen, 48 reguläre Übungen, 8 Bonusaufgaben, 10 Abschlusstestaufgaben, Lernfortschritt, Konten/Lehrerbereich, Netlify Functions/Blobs, Gestaltung.
+
+Die Übungen sind eigenständig formulierte Anwendungsszenarien, nicht wortwörtlich aus den Quellen übernommen. Das ist eine inhaltliche Schwerpunktkontrolle, keine Aussage, dass sämtliche Quellenaufgaben wortgleich im Kurs enthalten sind.
+
 ### Änderungen in Version 3
 
 - Das Einstiegsspiel wurde **optisch und spielmechanisch aus der vom Nutzer bereitgestellten „Zeitkarten_Challenge(1).html“ übernommen**. Drei Produkte, 100 Minuten, 20 echte Zeitkarten, Plus-/Minus-Bedienung und lokale Gruppenwertung bleiben erhalten.
@@ -102,4 +116,4 @@ Die Tests prüfen Rechenlogik und sämtliche automatischen Musterantworten sowie
 - `make_content.py` + `enhance_content.py`: lesbare Inhaltsgeneratoren für Fragen, Tabellen, Hinweise, Lösungen und Glossar. Nach inhaltlichen Änderungen mit `python make_content.py` neu erzeugen; die Erweiterungen werden dabei automatisch mitgeladen.
 - `tests/`: automatisierte Prüffälle.
 
-Stand: 10. November 2026 · Kursversion 3 · generiertes Unterrichtsprojekt. Die automatisierten Tests und ein lokaler Browser-Test mit simuliertem Speicher wurden durchgeführt. Der Live-Deploy und die reale Netlify-Blobs-Anbindung müssen nach der Veröffentlichung mit Testkonten geprüft werden.
+Stand: 10. November 2026 · Kursversion 4 · generiertes Unterrichtsprojekt. Die automatisierten Tests und ein lokaler Browser-Test mit simuliertem Speicher wurden durchgeführt. Der Live-Deploy und die reale Netlify-Blobs-Anbindung müssen nach der Veröffentlichung mit Testkonten geprüft werden.
